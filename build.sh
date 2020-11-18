@@ -10,8 +10,7 @@ echo $VERSION
 
 git add *
 git commit -m "updating..."
-git tag -a -m "My first action release" v1
-# git tag -a -m "My first action release" v${VERSION}
+git tag -a -m "My first action release" v${VERSION}
 git push --follow-tags
 
 

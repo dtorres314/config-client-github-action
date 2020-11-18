@@ -1,6 +1,7 @@
-# Hello world javascript action
+# Hello, World - Javascript Action
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action prints "Hello World" or "Hello" + the name of a person to greet to the log. It follows 
+[the tutorial here](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-javascript-action)
 
 ## Inputs
 
@@ -16,6 +17,6 @@ The time we greeted you.
 
 ## Example usage
 
-uses: actions/hello-world-javascript-action@v1.1
+uses: bootiful-podcast/bootiful-podcast-action@v1.1
 with:
   who-to-greet: 'Mona the Octocat'

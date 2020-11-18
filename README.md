@@ -17,6 +17,6 @@ The time we greeted you.
 
 ## Example usage
 
-uses: bootiful-podcast/bootiful-podcast-action@v1.1
+uses: bootiful-podcast/bootiful-podcast-action@v1
 with:
   who-to-greet: 'Mona the Octocat'

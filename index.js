@@ -1,3 +1,12 @@
+
+/*
+ * This action does a number of things for us:
+ *
+ * 1. It loads environment variables from Spring Cloud Config Server and loads them into the Github Actions workflow environment
+ * 2. It also determines which environment we're in - `PRODUCTION` or `DEVELOPMENT` and exports that as an environment variable, `BP_MODE_LOWERCASE`.
+ *
+ */
+
 const core = require('@actions/core');
 const github = require('@actions/github');
 

@@ -53,6 +53,14 @@ console.log('the command is [' + cmd + ']');
   config-client $CONFIGURATION_SERVER_USERNAME $CONFIGURATION_SERVER_PASSWORD deployment $BP_MODE_LOWERCASE http://${IP_OF_CONFIG_SERVER} $GITHUB_ENV
 */
 
+fs.readFile(filename, 'utf8', (err, data) => {
+
+  if (err) return console.log(err)
+  console.log('Before...')
+  console.log(`the length of the file data is ${data.length}`)
+
+});
+
 exec(cmd.trim(), (error, stdout, stderr) => {
   if (error) {
     console.error(`error: ${error.message}`);
@@ -68,7 +76,7 @@ exec(cmd.trim(), (error, stdout, stderr) => {
 fs.readFile(filename, 'utf8', (err, data) => {
 
   if (err) return console.log(err)
-
+  console.log('After...')
   console.log(`the length of the file data is ${data.length}`)
 
 });

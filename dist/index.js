@@ -37,7 +37,7 @@ const configServerUsername = process.env.CONFIGURATION_SERVER_USERNAME
 const configServerPassword = process.env.CONFIGURATION_SERVER_PASSWORD
 const configServerEnv = 'deployment'
 const bpMode = 'development'
-const configServerHost = '35.193.213.137'
+const configServerHost = 'http://35.193.213.137'
 const tmpObj = tmp.fileSync();
 
 console.log('File: ', tmpObj.name);

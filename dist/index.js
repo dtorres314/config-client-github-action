@@ -19,6 +19,7 @@ module.exports =
 const {exec} = __webpack_require__(129);
 const path = __webpack_require__(622)
 const tmp = __webpack_require__(100);
+const fs = __webpack_require__(747);
 
 
 // To get the filename
@@ -44,7 +45,6 @@ console.log('File descriptor: ', tmpObj.fd);
 const filename = tmpObj.name
 
 
-
 const cmd = ` ${configCliPath} ${configServerUsername} ${configServerPassword} ${configServerEnv} ${bpMode} ${configServerHost} ${filename}`.trim()
 
 console.log('the command is [' + cmd + ']');
@@ -54,21 +54,24 @@ console.log('the command is [' + cmd + ']');
 */
 
 exec(cmd.trim(), (error, stdout, stderr) => {
-
-
   if (error) {
     console.error(`error: ${error.message}`);
     return;
   }
-
   if (stderr) {
     console.error(`stderr: ${stderr}`);
     return;
   }
-
   console.log(`stdout:\n${stdout}`);
 });
 
+fs.readFile(filename, 'utf8', (err, data) => {
+
+  if (err) return console.log(err)
+
+  console.log(`the length of the file data is ${data.length}`)
+
+});
 
 
 /*

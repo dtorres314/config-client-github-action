@@ -44,7 +44,7 @@ console.log('File: ', tmpObj.name);
 console.log('File descriptor: ', tmpObj.fd);
 
 const filename = tmpObj.name
-const cmd = ` ${configCliPath} ${configServerUsername} ${configServerPassword} ${configServerEnv} ${bpMode} ${configServerHost} ${filename}`.trim()
+const cmd = ` ${configCliPath} "${configServerUsername}" "${configServerPassword}" "${configServerEnv}" ${bpMode} ${configServerHost} ${filename}`.trim()
 
 console.log('the command is [' + cmd + ']');
 
@@ -74,6 +74,10 @@ exec(cmd.trim(), (error, stdout, stderr) => {
     return;
   }
   console.log(`stdout:\n${stdout}`);
+
+
+
+
 });
 
 fs.readFile(filename, 'utf8', (err, data) => {

@@ -21,8 +21,27 @@ console.log(`Filename is ${__filename}`);
 // To get the directory name
 console.log(`Directory name is ${__dirname}`);
 
+// todo resolve the binary for the config client based on which OS is running:
+//On Mac the variable returns darwin. On Windows, it returns win32 (even on 64 bit).
+//
+// Current possible values are:
+//
+// aix
+// darwin
+// freebsd
+// linux
+// openbsd
+// sunos
+// win32
+// I just set this at the top of my jakeFile:
+//
+// const isWin = process.platform === "win32";
 
-const configCliPath = path.join(__dirname, 'bin', 'config-client')
+console.log('the platform is ' + process.platform)
+
+console.assert(process.platform === 'linux' || process.platform === 'darwin')
+
+const configCliPath = path.join(__dirname, 'bin', process.platform, 'config-client')
 
 console.log(`the path to the binary is ${configCliPath}`)
 
@@ -40,7 +59,6 @@ const filename = tmpObj.name
 const cmd = ` ${configCliPath} "${configServerUsername}" "${configServerPassword}" "${configServerEnv}" ${bpMode} ${configServerHost} ${filename}`.trim()
 
 console.log('the command is [' + cmd + ']');
-
 
 
 fs.readFile(filename, 'utf8', (err, data) => {
@@ -75,13 +93,8 @@ fs.readFile(filename, 'utf8', (err, data) => {
     });
 
 
-
-
-
   });
 });
-
-
 
 
 /*

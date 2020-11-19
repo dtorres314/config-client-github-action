@@ -33,18 +33,17 @@ const configCliPath = __webpack_require__.ab + "config-client"
 
 console.log(`the path to the binary is ${configCliPath}`)
 
-const configServerUsername = ''
-const configServerPassword = ''
+const configServerUsername = process.env.CONFIGURATION_SERVER_USERNAME
+const configServerPassword = process.env.CONFIGURATION_SERVER_PASSWORD
 const configServerEnv = 'deployment'
 const bpMode = 'development'
 const configServerHost = '35.193.213.137'
-
 const tmpObj = tmp.fileSync();
+
 console.log('File: ', tmpObj.name);
 console.log('File descriptor: ', tmpObj.fd);
+
 const filename = tmpObj.name
-
-
 const cmd = ` ${configCliPath} ${configServerUsername} ${configServerPassword} ${configServerEnv} ${bpMode} ${configServerHost} ${filename}`.trim()
 
 console.log('the command is [' + cmd + ']');
@@ -56,12 +55,16 @@ console.log('the command is [' + cmd + ']');
 fs.readFile(filename, 'utf8', (err, data) => {
 
   if (err) return console.log(err)
+
+
   console.log('Before...')
-  console.log(`the length of the file data is ${data.length}`)
+  console.log(`The length of the file data is ${data.length}`)
 
 });
 
 exec(cmd.trim(), (error, stdout, stderr) => {
+
+
   if (error) {
     console.error(`error: ${error.message}`);
     return;
@@ -75,7 +78,9 @@ exec(cmd.trim(), (error, stdout, stderr) => {
 
 fs.readFile(filename, 'utf8', (err, data) => {
 
-  if (err) return console.log(err)
+  if (err) {
+    return console.log(err)
+  }
   console.log('After...')
   console.log(`the length of the file data is ${data.length}`)
 

@@ -4,9 +4,14 @@
  * 1. It loads environment variables from Spring Cloud Config Server and loads them into the Github Actions workflow environment
  * 2. It also determines which environment we're in - `PRODUCTION` or `DEVELOPMENT` and exports that as an environment variable, `BP_MODE_LOWERCASE`.
  *
+ * TODO
+ *
+ * 1. figure out how to poll the output of the kubectl command waiting for a config-server instance to appear somewhere
+ *
  */
 const {exec} = require('child_process');
 const path = require('path')
+const tmp = require('tmp');
 
 
 // To get the filename
@@ -20,8 +25,28 @@ const configCliPath = path.join(__dirname, 'bin', 'config-client')
 
 console.log(`the path to the binary is ${configCliPath}`)
 
-exec(configCliPath, (error, stdout, stderr) => {
+const configServerUsername = ''
+const configServerPassword = ''
+const configServerEnv = 'deployment'
+const bpMode = 'development'
+const configServerHost = '35.193.213.137'
 
+const tmpObj = tmp.fileSync();
+console.log('File: ', tmpObj.name);
+console.log('File descriptor: ', tmpObj.fd);
+const filename = tmpObj.name
+
+
+
+const cmd = ` ${configCliPath} ${configServerUsername} ${configServerPassword} ${configServerEnv} ${bpMode} ${configServerHost} ${filename}`.trim()
+
+console.log('the command is [' + cmd + ']');
+
+/*
+  config-client $CONFIGURATION_SERVER_USERNAME $CONFIGURATION_SERVER_PASSWORD deployment $BP_MODE_LOWERCASE http://${IP_OF_CONFIG_SERVER} $GITHUB_ENV
+*/
+
+exec(cmd.trim(), (error, stdout, stderr) => {
 
 
   if (error) {
@@ -37,12 +62,6 @@ exec(configCliPath, (error, stdout, stderr) => {
   console.log(`stdout:\n${stdout}`);
 });
 
-function invoke_config_client_cli() {
-
-
-}
-
-invoke_config_client_cli()
 
 
 /*

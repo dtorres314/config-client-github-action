@@ -7,7 +7,6 @@ VERSION=$((`cat VERSION`+1))
 echo $VERSION > VERSION
 echo $VERSION
 
-
 git add *
 git commit -m "updating..."
 git tag -a -m "My first action release" v${VERSION}

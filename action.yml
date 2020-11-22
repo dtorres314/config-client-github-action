@@ -1,13 +1,31 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'spring-cloud-config-client'
+description: 'Spring Cloud Config Client   that hydrates a Github Actions environment'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+
+  config-server-uri:
+    description: 'Where should the client connect to find the Config Server?'
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+
+  config-server-username:
+    description: 'Which username should the client use to connect to the Spring Cloud Config Server?'
+    required: true
+
+  config-server-password:
+    description: 'Which password should the client use to connect to the Spring Cloud Config Server?'
+    required: true
+
+  config-server-application-id:
+    description: 'What application ID should the client use to connect to the Spring Cloud Config Server?'
+    required: true
+
+  config-server-profile:
+    description: 'Which profile shoudl the application use in connecting to the Spring Cloud Config Server?'
+    required: true
+#
+#outputs:
+#  time: # id of output
+#    description: 'The time we greeted you'
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

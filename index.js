@@ -12,8 +12,8 @@
 
 function resolveConfiguration(configServerUsername,
                               configServerPassword,
-                              configServerEnv,
-                              bpMode,
+                              applicationId,
+                              profile,
                               configServerHost,
                               callback
 ) {
@@ -46,7 +46,7 @@ function resolveConfiguration(configServerUsername,
   console.log('File descriptor: ', tmpObj.fd);
 
   const filename = tmpObj.name
-  const cmd = ` ${configCliPath} "${configServerUsername}" "${configServerPassword}" "${configServerEnv}" ${bpMode} ${configServerHost} ${filename}`.trim()
+  const cmd = ` ${configCliPath} "${configServerUsername}" "${configServerPassword}" "${applicationId}" ${profile} ${configServerHost} ${filename}  `.trim()
 
   console.log('the command is [' + cmd + ']');
 
@@ -93,19 +93,18 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello  ${nameToGreet} @ latest!`);
+
   const time = (new Date()).toTimeString();
   core.setOutput("time", time);
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
+
   console.log(`The event payload: ${payload}`);
-  const configServerUsername = process.env.CONFIGURATION_SERVER_USERNAME
-  const configServerPassword = process.env.CONFIGURATION_SERVER_PASSWORD
-  const configServerEnv = 'deployment'
-  const bpMode = 'development'
-  const configServerHost = 'http://34.71.92.231' // todo assign the configserver a DNS entry!
-  console.log(`going to connect to config server ${configServerHost} with user username ${configServerUsername}`)
+  const configServerUsername = core.getInput('config-server-username')
+  const configServerPassword = core.getInput('config-server-password')
+  const configServerAppId = core.getInput('config-server-application-id')
+  const profile = core.getInput('config-server-profile')
+  const configServerUri = core.getInput('config-server-uri')
+
+  console.log(`going to connect to config server ${configServerUri} with user username ${configServerUsername}`)
 
   function callbackInWhichToProcessTheData(mapOfExportedVariables) {
     for (let prop in mapOfExportedVariables) {
@@ -115,7 +114,7 @@ try {
     }
   }
 
-  resolveConfiguration(configServerUsername, configServerPassword, configServerEnv, bpMode, configServerHost, callbackInWhichToProcessTheData)
+  resolveConfiguration(configServerUsername, configServerPassword, configServerAppId, profile, configServerUri, callbackInWhichToProcessTheData)
 
 } catch (error) {
   core.setFailed(error.message);

@@ -88,8 +88,10 @@ function resolveConfiguration(configServerUsername,
         const m = {}
         const result = data.split('\n')
         for (let line in result) {
-          const {key, value} = line.split('=')
-          m [key.trim()] = value.trim()
+          if (line.indexOf('=') != -1) {
+            const {key, value} = line.split('=')
+            m [key ] = value
+          }
         }
 
         callback(m)

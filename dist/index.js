@@ -104,7 +104,7 @@ try {
   const time = (new Date()).toTimeString();
   core.setOutput("time", time);
 
-  console.log(`The event payload: ${payload}`);
+  // console.log(`The event payload: ${payload}`);
   const configServerUsername = core.getInput('config-server-username')
   const configServerPassword = core.getInput('config-server-password')
   const configServerAppId = core.getInput('config-server-application-id')

@@ -84,7 +84,7 @@ function resolveConfiguration(configServerUsername,
         }
         console.log('After...')
         console.log(`the length of the file data is ${data.length}`)
-
+        console.log('is this thing on?')
         const m = {}
         const result = data.split('\n')
         for (let line in result) {

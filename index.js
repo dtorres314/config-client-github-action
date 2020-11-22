@@ -52,7 +52,7 @@ function resolveConfiguration(configServerUsername,
         const result = data.split(newline)
         result.forEach((line, index, arr) => {
           if (line.trim() === '' || line.indexOf('=') === -1) {
-            console.log('returning')
+
             return
           }
           const parts = line.split('=')
@@ -86,7 +86,7 @@ try {
     for (let prop in mapOfExportedVariables) {
       const value = mapOfExportedVariables[prop];
       core.exportVariable(prop, value)
-      console.log('exporting ' + prop);
+      // console.debug('exporting ' + prop);
     }
   }
 

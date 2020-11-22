@@ -10,7 +10,7 @@
  *
  */
 
-async function resolveConfiguration(configServerUsername,
+  function resolveConfiguration(configServerUsername,
                                     configServerPassword,
                                     configServerEnv,
                                     bpMode,
@@ -103,7 +103,7 @@ try {
   const bpMode = 'development'
   const configServerHost = 'http://34.71.92.231' // todo assign the configserver a DNS entry!
   console.log(`going to connect to config server ${configServerHost} with user username ${configServerUsername}`)
-  const mapOfExportedVariables = await resolveConfiguration(configServerUsername, configServerPassword, configServerEnv, bpMode, configServerHost)
+  const mapOfExportedVariables =   resolveConfiguration(configServerUsername, configServerPassword, configServerEnv, bpMode, configServerHost)
   for (let prop in mapOfExportedVariables) {
     const value = mapOfExportedVariables[prop];
     core.exportVariable(prop, value)

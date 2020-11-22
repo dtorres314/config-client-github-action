@@ -10,11 +10,12 @@
  *
  */
 
-  function resolveConfiguration(configServerUsername,
-                                    configServerPassword,
-                                    configServerEnv,
-                                    bpMode,
-                                    configServerHost
+function resolveConfiguration(configServerUsername,
+                              configServerPassword,
+                              configServerEnv,
+                              bpMode,
+                              configServerHost,
+                              callback
 ) {
   const {exec} = require('child_process');
   const path = require('path')
@@ -77,6 +78,14 @@
         console.log('After...')
         console.log(`the length of the file data is ${data.length}`)
 
+        const m = {}
+        const result = data.split('\n')
+        for (let line in result) {
+          const {key, value} = line.split('=')
+          m [key.trim()] = value.trim()
+        }
+
+        callback(m)
       });
 
 
@@ -103,14 +112,18 @@ try {
   const bpMode = 'development'
   const configServerHost = 'http://34.71.92.231' // todo assign the configserver a DNS entry!
   console.log(`going to connect to config server ${configServerHost} with user username ${configServerUsername}`)
-  const mapOfExportedVariables =   resolveConfiguration(configServerUsername, configServerPassword, configServerEnv, bpMode, configServerHost)
-  for (let prop in mapOfExportedVariables) {
-    const value = mapOfExportedVariables[prop];
-    core.exportVariable(prop, value)
-    console.log('exporting ' + prop + ' with a value ' + value.length + '.');
+
+  function callbackInWhichToProcessTheData(mapOfExportedVariables) {
+    for (let prop in mapOfExportedVariables) {
+      const value = mapOfExportedVariables[prop];
+      core.exportVariable(prop, value)
+      console.log('exporting ' + prop + ' with a value ' + value.length + '.');
+    }
   }
-}
-catch (error) {
+
+  resolveConfiguration(configServerUsername, configServerPassword, configServerEnv, bpMode, configServerHost, callbackInWhichToProcessTheData)
+
+} catch (error) {
   core.setFailed(error.message);
 }
 

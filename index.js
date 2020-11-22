@@ -79,10 +79,11 @@ function resolveConfiguration(configServerUsername,
         console.log(`the length of the file data is ${data.length}`)
         console.log('is this thing on?')
         const m = {}
+        console.log('data: ' + data)
         const result = data.split('\n')
         for (let line in result) {
           if (line.indexOf('MESSAGE') !== -1) console.log(line);
-          if (line.indexOf('=') != -1) {
+          if (line.indexOf('=') !== -1) {
             const {key, value} = line.split('=')
             m [key] = value
           }

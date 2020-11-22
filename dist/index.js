@@ -22,42 +22,18 @@ function resolveConfiguration(configServerUsername,
                               applicationId,
                               profile,
                               configServerHost,
-                              callback
-) {
+                              callback) {
   const {exec} = __webpack_require__(3129);
   const path = __webpack_require__(5622)
   const tmp = __webpack_require__(8100);
   const fs = __webpack_require__(5747);
   const os = __webpack_require__(2087);
-
   const newline = os.EOL
-
-// To get the filename
-  console.log(`Filename is ${__filename}`);
-
-// To get the directory name
-  console.log(`Directory name is ${__dirname}`);
-
-
-  console.log('the platform is ' + process.platform)
-
   console.assert(process.platform === 'linux' || process.platform === 'darwin')
-
   const configCliPath = __webpack_require__.ab + "bin/" + process.platform + '/config-client'
-
-  console.log(`the path to the binary is ${configCliPath}`)
-
   const tmpObj = tmp.fileSync();
-
-  console.log('File: ', tmpObj.name);
-  console.log('File descriptor: ', tmpObj.fd);
-
   const filename = tmpObj.name
   const cmd = ` ${configCliPath} "${configServerUsername}" "${configServerPassword}" "${applicationId}" ${profile} ${configServerHost} ${filename}  `.trim()
-
-  console.log('the command is [' + cmd + ']');
-
-
   fs.readFile(filename, 'utf8', (err, data) => {
     if (err) {
       return console.log(err)
@@ -89,7 +65,7 @@ function resolveConfiguration(configServerUsername,
           const parts = line.split('=')
           m[parts [0]] = parts[1]
         })
-        console.log(m)
+
         callback(m)
       });
     });
@@ -117,7 +93,7 @@ try {
     for (let prop in mapOfExportedVariables) {
       const value = mapOfExportedVariables[prop];
       core.exportVariable(prop, value)
-      console.log('exporting ' + prop + ' with a value ' + value.length + '.');
+      console.log('exporting ' + prop);
     }
   }
 

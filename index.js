@@ -42,25 +42,28 @@ function resolveConfiguration(configServerUsername,
         return;
       }
       console.log(`stdout:\n${stdout}`);
-      fs.readFile(filename, 'utf8', (err, data) => {
+      fs.copyFileSync(filename, process.env.GITHUB_ENV)
 
-        if (err) {
-          return console.log(err)
-        }
+      /*
+            fs.readFile(filename, 'utf8', (err, data) => {
 
-        const m = {}
-        const result = data.split(newline)
-        result.forEach((line, index, arr) => {
-          if (line.trim() === '' || line.indexOf('=') === -1) {
+              if (err) {
+                return console.log(err)
+              }
 
-            return
-          }
-          const parts = line.split('=')
-          m[parts [0]] = parts[1]
-        })
+              const m = {}
+              const result = data.split(newline)
+              result.forEach((line, index, arr) => {
+                if (line.trim() === '' || line.indexOf('=') === -1) {
+                  return
+                }
+                const parts = line.split('=')
+                m[parts [0]] = parts[1]
+              })
 
-        callback(m)
-      });
+              callback(m)
+            });
+            */
     });
   });
 }

@@ -1,7 +1,6 @@
-# Hello, World - Javascript Action
+# A Spring Cloud Config Server client Github Action 
 
-
-This action loads configuration from a Spring Cloud Config Server instance so long as that Spring Cloud Config Server instance requires HTTP BASIC authentication. 
+This action loads configuration from a Spring Cloud Config Server instance as environment variables in a Github workflow. This Github Action assumes that the  Spring Cloud Config Server instance requires HTTP BASIC authentication. 
 
 ## Inputs
 

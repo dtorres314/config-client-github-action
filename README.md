@@ -35,7 +35,7 @@ Once run, this will export all values in the Spring Cloud Config Server as envir
 
 ## Example usage
 
-uses: joshlong/config-client-github-action@v30
+uses: joshlong/config-client-github-action@v31
 with:
   config-server-username: ...
   config-server-password: ...

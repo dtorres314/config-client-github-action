@@ -14,52 +14,79 @@ function resolveConfiguration(configServerUsername,
                               configServerPassword,
                               configServerEnv,
                               bpMode,
-                              configServerHost
+                              configServerHost,
+                              callback
 ) {
+  const {exec} = require('child_process');
   const path = require('path')
+  const tmp = require('tmp');
+  const fs = require('fs');
+  const os = require('os');
+
+  const newline = os.EOL
+
+// To get the filename
+  console.log(`Filename is ${__filename}`);
+
+// To get the directory name
+  console.log(`Directory name is ${__dirname}`);
+
+
+  console.log('the platform is ' + process.platform)
+
   console.assert(process.platform === 'linux' || process.platform === 'darwin')
+
   const configCliPath = path.join(__dirname, 'bin', process.platform, 'config-client')
-  const ghEnv = process.env.GITHUB_ENV
-  const cmd = ` ${configCliPath} "${configServerUsername}" "${configServerPassword}" "${configServerEnv}" ${bpMode} ${configServerHost} ${ghEnv}`.trim()
+
+  console.log(`the path to the binary is ${configCliPath}`)
+
+  const tmpObj = tmp.fileSync();
+
+  console.log('File: ', tmpObj.name);
+  console.log('File descriptor: ', tmpObj.fd);
+
+  const filename = tmpObj.name
+  const cmd = ` ${configCliPath} "${configServerUsername}" "${configServerPassword}" "${configServerEnv}" ${bpMode} ${configServerHost} ${filename}`.trim()
+
   console.log('the command is [' + cmd + ']');
 
 
-  /*  fs.readFile(filename, 'utf8', (err, data) => {
-      if (err) {
-        return console.log(err)
+  fs.readFile(filename, 'utf8', (err, data) => {
+    if (err) {
+      return console.log(err)
+    }
+    console.log(`The length of the file data is ${data.length}`)
+    exec(cmd.trim(), (error, stdout, stderr) => {
+      if (error) {
+        console.error(`error: ${error.message}`);
+        return;
       }
-      console.log(`The length of the file data is ${data.length}`)
-      exec(cmd.trim(), (error, stdout, stderr) => {
-        if (error) {
-          console.error(`error: ${error.message}`);
-          return;
-        }
-        if (stderr) {
-          console.error(`stderr: ${stderr}`);
-          return;
-        }
-        console.log(`stdout:\n${stdout}`);
-        fs.readFile(filename, 'utf8', (err, data) => {
+      if (stderr) {
+        console.error(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`stdout:\n${stdout}`);
+      fs.readFile(filename, 'utf8', (err, data) => {
 
-          if (err) {
-            return console.log(err)
+        if (err) {
+          return console.log(err)
+        }
+
+        const m = {}
+        const result = data.split(newline)
+        result.forEach((line, index, arr) => {
+          if (line.trim() === '' || line.indexOf('=') === -1) {
+            console.log('returning')
+            return
           }
-
-          const m = {}
-          const result = data.split(newline)
-          result.forEach((line, index, arr) => {
-            if (line.trim() === '' || line.indexOf('=') === -1) {
-              console.log('returning')
-              return
-            }
-            const parts = line.split('=')
-            m[parts [0]] = parts[1]
-          })
-          console.log(m)
-          callback(m)
-        });
+          const parts = line.split('=')
+          m[parts [0]] = parts[1]
+        })
+        console.log(m)
+        callback(m)
       });
-    });*/
+    });
+  });
 }
 
 const core = require('@actions/core');
@@ -80,7 +107,6 @@ try {
   const configServerHost = 'http://34.71.92.231' // todo assign the configserver a DNS entry!
   console.log(`going to connect to config server ${configServerHost} with user username ${configServerUsername}`)
 
-/*
   function callbackInWhichToProcessTheData(mapOfExportedVariables) {
     for (let prop in mapOfExportedVariables) {
       const value = mapOfExportedVariables[prop];
@@ -88,9 +114,8 @@ try {
       console.log('exporting ' + prop + ' with a value ' + value.length + '.');
     }
   }
-*/
 
-  resolveConfiguration(configServerUsername, configServerPassword, configServerEnv, bpMode, configServerHost   )
+  resolveConfiguration(configServerUsername, configServerPassword, configServerEnv, bpMode, configServerHost, callbackInWhichToProcessTheData)
 
 } catch (error) {
   core.setFailed(error.message);

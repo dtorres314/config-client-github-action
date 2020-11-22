@@ -24,8 +24,8 @@ function resolveConfiguration(configServerUsername,
   const newline = os.EOL
   console.assert(process.platform === 'linux' || process.platform === 'darwin')
   const configCliPath = path.join(__dirname, 'bin', process.platform, 'config-client')
-  const tmpObj = tmp.fileSync();
-  const filename = tmpObj.name
+  // const tmpObj = tmp.fileSync();
+  const filename = process.env.GITHUB_ENV // tmpObj.name
   const cmd = ` ${configCliPath} "${configServerUsername}" "${configServerPassword}" "${applicationId}" ${profile} ${configServerHost} ${filename}  `.trim()
   fs.readFile(filename, 'utf8', (err, data) => {
     if (err) {
@@ -41,8 +41,8 @@ function resolveConfiguration(configServerUsername,
         console.error(`stderr: ${stderr}`);
         return;
       }
-      console.log(`stdout:\n${stdout}`);
-      fs.copyFileSync(filename, process.env.GITHUB_ENV)
+      //console.log(`stdout:\n${stdout}`);
+      // fs.copyFileSync(filename, process.env.GITHUB_ENV)
 
       /*
             fs.readFile(filename, 'utf8', (err, data) => {

@@ -21,6 +21,7 @@ function resolveConfiguration(configServerUsername,
     if (err) {
       return console.log(err)
     }
+    
     console.log(`The length of the file data is ${data.length}`)
     exec(cmd.trim(), (error, stdout, stderr) => {
       if (error) {
